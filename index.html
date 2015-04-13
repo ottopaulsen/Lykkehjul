@@ -9,9 +9,18 @@
     </style>
   </head>
   <body>
-    <span id="container1"></span>
-    <span id="container2"></span>
-    <span id="container3"></span>
+    <div>
+      <span id="container1"></span>
+      <span id="container2"></span>
+      <span id="container3"></span>
+    </div>  
+    <div>
+      <table width=100% style="font-family: 'Arial'; font-size: 1500%; text-align:center text-weight:800"><tr>
+      <td align="center"><span id="res1"></span></td>
+      <td align="center"><span id="res2"></span></td>
+      <td align="center"><span id="res3"></span></td>
+      </tr></table>
+    </div>
     <div id="debug" style="position:relative"></div>
     <script src="kinetic-v5.1.0.min.js"></script>
     <script defer="defer">
@@ -21,12 +30,14 @@
       var WHEEL_RADIUS = screen.width / 6 - 6;
       var ANGULAR_FRICTION = 0.2;
 
+      var audio = new Audio('click.mp3');
 
-      function snurr(fric) {
+
+      function snurr(fric, resCont) {
 
         // globals
-        var angularVelocity = 720;
-        var lastRotation = 0;
+        var angularVelocity = 620;
+        var lastRotation = 0.5;
         var controlled = false;
 
         var target, activeWedge, stage, layer, wheel, 
@@ -114,6 +125,8 @@
             rotation: n * 360 / NUM_WEDGES,
           });
 
+          wedge.reward = reward;
+
           var wedgeBackground = new Kinetic.Wedge({
             radius: WHEEL_RADIUS,
             angle: angle,
@@ -132,7 +145,7 @@
           var text = new Kinetic.Text({
             text: reward,
             fontFamily: 'Calibri',
-            fontSize: 50,
+            fontSize: 100,
             fill: 'white',
             align: 'center',
             stroke: 'yellow',
@@ -171,16 +184,24 @@
           if (intersectedWedge && (!activeWedge || activeWedge._id !== intersectedWedge._id)) {
             pointerTween.reset();
             pointerTween.play();
+            audio.play();
             activeWedge = intersectedWedge; 
           }
 
+          if(intersectedWedge && angularVelocity < 2) {
+            document.getElementById(resCont).innerHTML = intersectedWedge.parent.reward;
+            //document.getElementById(resCont).innerHTML = angularVelocity;
+            this.stop();
+          } else {
+            document.getElementById(resCont).innerHTML = '?'
+          }
         
         }
         this.init = function (cont) {
           stage = new Kinetic.Stage({
             container: cont,
             width: WHEEL_RADIUS * 2,
-            height: WHEEL_RADIUS * 2.5
+            height: WHEEL_RADIUS * 2.2
           });
           layer = new Kinetic.Layer();
           wheel = new Kinetic.Group({
@@ -254,11 +275,11 @@
         }
       }
 
-      var s1 = new snurr(0.3);
+      var s1 = new snurr(0.7, 'res1');
       s1.init('container1');
-      var s2 = new snurr(0.5);
+      var s2 = new snurr(0.6, 'res2');
       s2.init('container2');
-      var s3 = new snurr(0.6);
+      var s3 = new snurr(0.3, 'res3');
       s3.init('container3');
 
     </script>
