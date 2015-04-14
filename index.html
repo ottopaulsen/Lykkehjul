@@ -53,6 +53,9 @@
             </div>
         </div>
       </div>
+      <div class="row">
+        <div id="hjelpetekst" class="col-xs-12" align="center"></div>
+      </div>
       <div id="debug" style="position:relative"></div>
     </div>
     <script src="kinetic-v5.1.0.min.js"></script>
@@ -226,8 +229,10 @@
             //document.getElementById(resCont).innerHTML = intersectedWedge.parent.reward;
             // Picture images: http://en.wikibooks.org/wiki/Wikijunior:Numbers_from_1_to_20/8#/media/File:Huit.svg
             this.stop();
+            document.getElementById('hjelpetekst').innerHTML = '<br/><br/><p>Trykk F5 eller Ctrl+R for å trekke på nytt</p>';
           } else {
             document.getElementById(resCont).innerHTML = '';
+            document.getElementById('hjelpetekst').innerHTML = '';
           }
         
         }
