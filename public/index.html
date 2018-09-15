@@ -1,33 +1,69 @@
 <!DOCTYPE HTML>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       body {
         margin: 0px;
         padding: 0px;
       }
     </style>
+    <title>Lykkehjul</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script language="JavaScript" type="text/javascript" src="jquery-2.1.3.min.js"></script>
   </head>
   <body>
-    <div>
-      <span id="container1"></span>
-      <span id="container2"></span>
-      <span id="container3"></span>
-    </div>  
-    <div>
-      <table width=100% style="font-family: 'Arial'; font-size: 1500%; text-align:center text-weight:800"><tr>
-      <td align="center"><span id="res1"></span></td>
-      <td align="center"><span id="res2"></span></td>
-      <td align="center"><span id="res3"></span></td>
-      </tr></table>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 col-sm-4" id="container1" align="center"></div>
+        <div class="col-xs-12 col-sm-4" id="container2" align="center"></div>
+        <div class="col-xs-12 col-sm-4" id="container3" align="center"></div>
+      </div>  
+      <div class="row" style="font-size:100px;">
+        <div class="col-xs-4">
+            <div class="row">
+              <div class="col-xs-4"></div>
+              <div class="col-xs-4"><p id="res1" class="text-center"></p></div>
+              <div class="col-xs-4"></div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="row">
+              <div class="col-xs-4"></div>
+              <div class="col-xs-4"><p id="res2" class="text-center"></p></div>
+              <div class="col-xs-4"></div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="row">
+              <div class="col-xs-4"></div>
+              <div class="col-xs-4"><p id="res3" class="text-center"></p></div>
+              <div class="col-xs-4"></div>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="hjelpetekst" class="col-xs-12" align="center"></div>
+      </div>
+      <div id="debug" style="position:relative"></div>
     </div>
-    <div id="debug" style="position:relative"></div>
     <script src="kinetic-v5.1.0.min.js"></script>
     <script defer="defer">
       //constants
       var MAX_ANGULAR_VELOCITY = 360 * 5;
       var NUM_WEDGES = 10;
-      var WHEEL_RADIUS = screen.width / 6 - 6;
+      var WHEEL_RADIUS = $(window).width() / 7.5;
       var ANGULAR_FRICTION = 0.2;
 
       var audio = new Audio('click.mp3');
@@ -36,7 +72,7 @@
       function snurr(fric, resCont) {
 
         // globals
-        var angularVelocity = 620;
+        var angularVelocity = 620; //620
         var lastRotation = 0.5;
         var controlled = false;
 
@@ -145,7 +181,7 @@
           var text = new Kinetic.Text({
             text: reward,
             fontFamily: 'Calibri',
-            fontSize: 100,
+            fontSize: WHEEL_RADIUS / 3,
             fill: 'white',
             align: 'center',
             stroke: 'yellow',
@@ -189,11 +225,14 @@
           }
 
           if(intersectedWedge && angularVelocity < 2) {
-            document.getElementById(resCont).innerHTML = intersectedWedge.parent.reward;
-            //document.getElementById(resCont).innerHTML = angularVelocity;
+            document.getElementById(resCont).innerHTML = '<img class="img-responsive" src="' + intersectedWedge.parent.reward + '.png" alt="' + intersectedWedge.parent.reward + '"/>';
+            //document.getElementById(resCont).innerHTML = intersectedWedge.parent.reward;
+            // Picture images: http://en.wikibooks.org/wiki/Wikijunior:Numbers_from_1_to_20/8#/media/File:Huit.svg
             this.stop();
+            document.getElementById('hjelpetekst').innerHTML = '<br/><br/><p>Trykk F5 eller Ctrl+R for å trekke på nytt</p>';
           } else {
-            document.getElementById(resCont).innerHTML = '?'
+            document.getElementById(resCont).innerHTML = '';
+            document.getElementById('hjelpetekst').innerHTML = '';
           }
         
         }
@@ -275,13 +314,18 @@
         }
       }
 
-      var s1 = new snurr(0.7, 'res1');
+      var s1 = new snurr(0.6, 'res1');
       s1.init('container1');
-      var s2 = new snurr(0.6, 'res2');
+      var s2 = new snurr(0.5, 'res2');
       s2.init('container2');
       var s3 = new snurr(0.3, 'res3');
       s3.init('container3');
 
-    </script>
+    </script>    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
   </body>
 </html>
