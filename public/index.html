@@ -48,6 +48,7 @@
       </div>
       <div class="row">
         <div id="hjelpetekst" class="col-xs-12" align="center"></div>
+        <div id="madebytext" class="col-xs-12" align="right"></div>
       </div>
       <div id="debug" style="position:relative"></div>
     </div>
@@ -59,7 +60,6 @@
       var ANGULAR_FRICTION = 0.2;
 
       var audio = new Audio('click.mp3');
-
 
       function snurr(fric, resCont, angularVelocity = 620) {
 
@@ -214,11 +214,17 @@
             document.getElementById(resCont).innerHTML = '<img class="img-responsive" src="' + intersectedWedge.parent.reward + '.png" alt="' + intersectedWedge.parent.reward + '"/>';
             // Picture images: http://en.wikibooks.org/wiki/Wikijunior:Numbers_from_1_to_20/8#/media/File:Huit.svg
             this.stop();
-            document.getElementById('hjelpetekst').innerHTML = '<br><br><button onclick="trekk(1)">Trykk en tast for å trekke på nytt</button><br><br><p align="right"><small><small>Lykkehjulet er laget av Otto Paulsen</small></small></p>';
+            setTimeout( function() {
+              document.getElementById('hjelpetekst').innerHTML = '<br><br><button onclick="trekk(1)">Trykk en tast for å trekke på nytt</button>';
+            }, angularVelocity ? 2000 : 0);
+            setTimeout( function() {
+              document.getElementById('madebytext').innerHTML = '<p align="right"><small><small>Lykkehjulet er laget av Otto Paulsen</small></small></p>';
+            }, angularVelocity ? 6000 : 0);
 
           } else {
             document.getElementById(resCont).innerHTML = '';
             document.getElementById('hjelpetekst').innerHTML = '';
+            document.getElementById('madebytext').innerHTML = '';
           }
         
         }
