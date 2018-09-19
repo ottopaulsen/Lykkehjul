@@ -69,10 +69,10 @@
       var audio = new Audio('click.mp3');
 
 
-      function snurr(fric, resCont) {
+      function snurr(fric, resCont, angularVelocity = 620) {
 
         // globals
-        var angularVelocity = 620; //620
+        // var angularVelocity = 620; //620
         var lastRotation = 0.5;
         var controlled = false;
 
@@ -229,7 +229,8 @@
             //document.getElementById(resCont).innerHTML = intersectedWedge.parent.reward;
             // Picture images: http://en.wikibooks.org/wiki/Wikijunior:Numbers_from_1_to_20/8#/media/File:Huit.svg
             this.stop();
-            document.getElementById('hjelpetekst').innerHTML = '<br/><br/><p>Trykk F5 eller Ctrl+R for å trekke på nytt</p>';
+            // document.getElementById('hjelpetekst').innerHTML = '<br/><br/><p>Trykk F5 eller Ctrl+R for å trekke på nytt</p>';
+            document.getElementById('hjelpetekst').innerHTML = '<br><br><button onclick="trekk(1)">Trykk en tast for å trekke på nytt</button>';
           } else {
             document.getElementById(resCont).innerHTML = '';
             document.getElementById('hjelpetekst').innerHTML = '';
@@ -314,12 +315,28 @@
         }
       }
 
-      var s1 = new snurr(0.6, 'res1');
-      s1.init('container1');
-      var s2 = new snurr(0.5, 'res2');
-      s2.init('container2');
-      var s3 = new snurr(0.3, 'res3');
-      s3.init('container3');
+      function trekk(run) {
+        // run = 0 to finish immediately, 1 to run normal
+        var base = 0.3;
+        var span = 0.2;
+        var valocity = 620 * run;
+
+        var s1 = new snurr(base + Math.random() * span, 'res1', valocity);
+        s1.init('container1');
+        var s2 = new snurr(base + Math.random() * span, 'res2', valocity);
+        s2.init('container2');
+        var s3 = new snurr(base + Math.random() * span, 'res3', valocity);
+        s3.init('container3');
+      }
+
+      self = this;
+      this.trekk(0);
+
+      document.onkeypress = function (e) {
+          e = e || window.event;
+          self.trekk(1);
+      };
+
 
     </script>    
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
